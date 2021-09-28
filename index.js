@@ -22,3 +22,5 @@ function onYouTubeIframeAPIReady() {
         }
     });
 }
+
+console.log("測試")
