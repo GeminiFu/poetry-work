@@ -15,7 +15,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(e) {
-    console.log(player);
     player.mute();
     player.loadVideoById({
         videoId: "bhuYIr1J1zc",
