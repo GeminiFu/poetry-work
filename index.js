@@ -1,24 +1,47 @@
+var player;
 function onYouTubeIframeAPIReady() {
-    var player;
-    player = new YT.Player('muteYouTubeVideoPlayer', {
-        videoId: 'oHC1230OpOg', // YouTube 影片ID
-        width: 560, // 播放器寬度 (px)
-        height: 316, // 播放器高度 (px)
+    player = new YT.Player("player", {
+        height: 780,
+        width: 1280,
+        videoId: "bhuYIr1J1zc",
         playerVars: {
-            autoplay: 1, // 在讀取時自動播放影片
-            controls: 0, // 在播放器顯示暫停／播放按鈕
-            showinfo: 0, // 隱藏影片標題
-            modestbranding: 0, // 隱藏YouTube Logo
-            loop: 0, // 讓影片循環播放
-            fs: 0, // 隱藏全螢幕按鈕
-            cc_load_policty: 0, // 隱藏字幕
-            iv_load_policy: 3, // 隱藏影片註解
-            autohide: 0 // 當播放影片時隱藏影片控制列
+            'autoplay': 1
         },
         events: {
-            onReady: function (e) {
-                e.target.mute();
-            }
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
         }
-    });
+    })
+}
+
+function onPlayerReady(e) {
+    console.log(player);
+    player.mute();
+    player.loadVideoById({
+        videoId: "bhuYIr1J1zc",
+        startSeconds: 7
+    })
+    stopOnTen(e);
+}
+
+function onPlayerStateChange(e) {
+}
+
+function stopOnTen(e) {
+    let current,
+        state = player.getPlayerState();
+    if (state === 1) {
+        let id = setInterval(function () {
+            current = e.target.getCurrentTime()
+
+            if (Math.ceil(current) >= 11) {
+                player.pauseVideo();
+                clearInterval(id);
+            }
+        }, 1000)
+    } else {
+        setTimeout(() => {
+            stopOnTen(e)
+        }, 10)
+    }
 }
